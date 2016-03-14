@@ -17,13 +17,13 @@ import /init.qcom.ssr.rc
 import /init.qcom.power.rc
 
 on early-init
-    mount debugfs debugfs /sys/kernel/debug
     chown system system /sys/kernel/debug/kgsl/proc
 
 on init
     # Set permissions for persist partition
     mkdir /persist 0771 system system
     mkdir /firmware 0771 system system
+    mkdir /oem 0550 root root
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -357,6 +357,23 @@ on post-fs-data
     exec /system/xbin/cp /vendor/etc/qcril.db /data/misc/radio/qcril.db
     chown radio radio /data/misc/radio/qcril.db
     chmod 700 /data/misc/radio/qcril.db
+
+
+on fs
+    mount_all ./fstab.qcom
+    mkdir /dev/usb-ffs 0770 shell shell
+    mkdir /dev/usb-ffs/adb 0770 shell shell
+    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
+    write /sys/class/android_usb/android0/f_ffs/aliases adb
+    mkdir /dev/bus 0755 root root
+    mkdir /dev/bus/usb 0755 root root
+
+    restorecon_recursive   /persist
+    mkdir /persist/data 0700 system system
+    mkdir /persist/data/sfs 0700 system system
+    mkdir /persist/data/tz 0700 system system
+
+    mount ext4 /dev/block/bootdevice/by-name/mrd /oem ro nosuid nodev context=u:object_r:oemfs:s0
 
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
