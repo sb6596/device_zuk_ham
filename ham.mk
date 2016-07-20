@@ -21,6 +21,9 @@ endif
 # Set CM_BUILDTYPE
 CM_BUILDTYPE := NIGHTLY
 
+ADD_RADIO_FILES ?= true
+TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
+
 # overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay vendor/extra/overlays/phone-1080p
 
