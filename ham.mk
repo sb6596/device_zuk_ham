@@ -87,7 +87,7 @@ PRODUCT_PACKAGES += \
 
 # Doze mode
 PRODUCT_PACKAGES += \
-    OneplusDoze
+    ZukDoze
 	
 # Fingerprint
 PRODUCT_PACKAGES += \
