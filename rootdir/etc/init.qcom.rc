@@ -203,7 +203,17 @@ on boot
     chown system system /sys/class/leds/button-backlight/brightness
     chown system system /sys/class/leds/button-backlight2/brightness
     chown system system /sys/class/leds/torch-light1/brightness
-
+    
+	# KCAL
+    write /sys/devices/platform/kcal_ctrl.0/kcal 235 233 256 
+    write /sys/devices/platform/kcal_ctrl.0/kcal_min 35 
+    write /sys/devices/platform/kcal_ctrl.0/kcal_enable 1
+    write /sys/devices/platform/kcal_ctrl.0/kcal_invert 0
+    write /sys/devices/platform/kcal_ctrl.0/kcal_sat 243
+    write /sys/devices/platform/kcal_ctrl.0/kcal_hue 1515
+    write /sys/devices/platform/kcal_ctrl.0/kcal_val 250
+    write /sys/devices/platform/kcal_ctrl.0/kcal_cont 255
+	
     # RGB
     chown system system /sys/class/leds/led:rgb_red/brightness
     chown system system /sys/class/leds/led:rgb_red/duty_pcts
