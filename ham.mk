@@ -85,10 +85,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     charger_res_images
 
-# Doze mode
-PRODUCT_PACKAGES += \
-    OneplusDoze
-	
 # Fingerprint
 PRODUCT_PACKAGES += \
     fingerprintd
