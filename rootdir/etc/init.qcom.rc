@@ -213,6 +213,14 @@ on boot
     write /sys/devices/platform/kcal_ctrl.0/kcal_hue 1515
     write /sys/devices/platform/kcal_ctrl.0/kcal_val 250
     write /sys/devices/platform/kcal_ctrl.0/kcal_cont 255
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_min
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_enable
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_invert
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_sat
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_hue
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_val
+    chown system system /sys/devices/platform/kcal_ctrl.0/kcal_cont
 	
     # RGB
     chown system system /sys/class/leds/led:rgb_red/brightness
