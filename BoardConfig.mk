@@ -49,6 +49,9 @@ BOARD_KERNEL_CMDLINE := console=tty60,115200,n8 androidboot.hardware=qcom user_d
 TARGET_KERNEL_SOURCE := kernel/cyanogen/msm8974
 TARGET_KERNEL_CONFIG := cyanogenmod_k9_defconfig
 
+# ANT+
+BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
+
 # Enable DIAG on debug builds
 ifneq ($(TARGET_BUILD_VARIANT),user)
 TARGET_KERNEL_ADDITIONAL_CONFIG:= cyanogenmod_debug_config
@@ -101,23 +104,13 @@ USE_DEVICE_SPECIFIC_LOC_API := true
 USE_DEVICE_SPECIFIC_GPS := true
 
 # Graphics
-BOARD_EGL_CFG := device/zuk/ham/configs/egl.cfg
-USE_OPENGL_RENDERER := true
+MAX_EGL_CACHE_KEY_SIZE := 12*1024
+MAX_EGL_CACHE_SIZE := 2048*1024
+OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 TARGET_CONTINUOUS_SPLASH_ENABLED := true
 TARGET_USES_ION := true
-OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
+USE_OPENGL_RENDERER := true
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
-TARGET_USE_COMPAT_GRALLOC_PERFORM := true
-
-# Shader cache config options
-# Maximum size of the  GLES Shaders that can be cached for reuse.
-# Increase the size if shaders of size greater than 12KB are used.
-MAX_EGL_CACHE_KEY_SIZE := 12*1024
-
-# Maximum GLES shader cache size for each app to store the compiled shader
-# binaries. Decrease the size if RAM or Flash Storage size is a limitation
-# of the device.
-MAX_EGL_CACHE_SIZE := 2048*1024
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
@@ -148,14 +141,14 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
-# No old RPC for prop
+# RPC 
 TARGET_NO_RPC := true
 
-# GPS HAL lives here
+# GPS
 TARGET_GPS_HAL_PATH := device/zuk/ham/gps
 TARGET_PROVIDES_GPS_LOC_API := true
 
-# QCRIL
+# Radio
 TARGET_RIL_VARIANT := caf
 
 # Recovery
@@ -164,11 +157,8 @@ TARGET_RECOVERY_FSTAB := device/zuk/ham/rootdir/etc/fstab.qcom
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
 
-# Use HW crypto for ODE
+# ENCRYPTION
 TARGET_HW_DISK_ENCRYPTION := true
-
-# ANT+ - TODO: Confirm this - TODO: Confirm this - TODO: Confirm this - TODO: Confirm this
-BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Enable dexpreopt to reduce first boot time
 ifeq ($(HOST_OS),linux)
