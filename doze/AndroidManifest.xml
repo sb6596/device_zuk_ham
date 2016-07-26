@@ -13,7 +13,7 @@
         android:targetSdkVersion="21"/>
 
     <application
-        android:label="ZukDoze"
+        android:label="OneplusDoze"
         android:persistent="true">
 
         <receiver android:name="com.cyanogenmod.settings.doze.BootCompletedReceiver">
