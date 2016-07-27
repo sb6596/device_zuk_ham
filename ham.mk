@@ -85,6 +85,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     charger_res_images
 
+# Enable Quick Charge 2.0
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.usb.hvdcp.detect=true
+	
 # Fingerprint
 PRODUCT_PACKAGES += \
     fingerprintd
