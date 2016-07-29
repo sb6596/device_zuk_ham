@@ -19,7 +19,7 @@ $(call inherit-product-if-exists, $(QCPATH)/common/config/device-vendor.mk)
 endif
 
 # Set CM_BUILDTYPE
-CM_BUILDTYPE := NIGHTLY
+CM_BUILDTYPE := STABLE
 
 ADD_RADIO_FILES ?= true
 TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
