@@ -58,7 +58,7 @@ on enable-low-power
 
     start mpdecision
 
-    setprop sys.io.scheduler deadline
+    setprop sys.io.scheduler row
 
 on charger
     write /sys/module/lpm_levels/enable_low_power/l2 2
