@@ -205,7 +205,7 @@ on boot
     chown system system /sys/class/leds/torch-light1/brightness
     
 	# KCAL
-    write /sys/devices/platform/kcal_ctrl.0/kcal 235 233 256 
+    write /sys/devices/platform/kcal_ctrl.0/kcal "235 233 256"
     write /sys/devices/platform/kcal_ctrl.0/kcal_min 35 
     write /sys/devices/platform/kcal_ctrl.0/kcal_enable 1
     write /sys/devices/platform/kcal_ctrl.0/kcal_invert 0
