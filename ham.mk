@@ -76,6 +76,10 @@ PRODUCT_PACKAGES += \
     libtfa98xx \
     tinymix
 
+# First api level, device has been commercially launched
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.product.first_api_level=22
+
 # Camera
 PRODUCT_PACKAGES += \
     camera.msm8974 \
