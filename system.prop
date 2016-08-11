@@ -43,6 +43,7 @@ ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
 # Properties from ham.mk
 mm.enable.smoothstreaming=true
+audio_hal.period_size=192
 audio.offload.buffer.size.kb=32
 audio.offload.video=false
 av.streaming.offload.enable=false
