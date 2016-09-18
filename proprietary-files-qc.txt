@@ -180,7 +180,6 @@ etc/firmware/venus.mdt
 
 # Radio
 +priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk
-+priv-app/QtiTetherService/QtiTetherService.apk
 +app/shutdownlistener/shutdownlistener.apk
 -bin/diag_mdlog
 -bin/netmgrd
@@ -200,7 +199,6 @@ etc/firmware/venus.mdt
 -vendor/lib/liblqe.so
 -vendor/lib/libnetmgr.so
 -vendor/lib/libperipheral_client.so
--vendor/lib/libQtiTether.so
 -vendor/lib/libril-qc-qmi-1.so
 -vendor/lib/libril-qcril-hook-oem.so
 -vendor/lib/libxml.so
@@ -225,4 +223,4 @@ etc/firmware/venus.mdt
 
 # WiFi
 -lib/libwpa_qmi_eap_proxy.so
--lib/libwcnss_qmi.so 
+-lib/libwcnss_qmi.so
