@@ -22,58 +22,47 @@ TARGET_SPECIFIC_HEADER_PATH += device/zuk/ham/include
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
-TARGET_NO_BOOTLOADER := true
-TARGET_NO_RADIOIMAGE := true
+TARGET_NO_BOOTLOADER         := true
+TARGET_NO_RADIOIMAGE         := true
 
 # Platform
-TARGET_BOARD_PLATFORM := msm8974
+TARGET_BOARD_PLATFORM     := msm8974
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno330
 
 # Architecture
-TARGET_ARCH := arm
-TARGET_ARCH_VARIANT := armv7-a-neon
-TARGET_CPU_ABI := armeabi-v7a
-TARGET_CPU_ABI2 := armeabi
-TARGET_CPU_VARIANT := krait
-TARGET_CPU_SMP := true
+TARGET_ARCH                := arm
+TARGET_ARCH_VARIANT        := armv7-a-neon
+TARGET_CPU_ABI             := armeabi-v7a
+TARGET_CPU_ABI2            := armeabi
+TARGET_CPU_VARIANT         := krait
+TARGET_CPU_SMP             := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
 # Kernel
-BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_PAGESIZE := 2048
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
-BOARD_DTBTOOL_ARGS := -2
+BOARD_KERNEL_BASE         := 0x00000000
+BOARD_KERNEL_PAGESIZE     := 2048
 BOARD_KERNEL_SEPARATED_DT := true
-TARGET_KERNEL_ARCH := arm
-BOARD_KERNEL_CMDLINE := console=tty60,115200,n8 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3b7 ehci-hcd.park=3 androidboot.bootdevice=msm_sdcc.1 vmalloc=480M androidboot.selinux=permissive
-TARGET_KERNEL_SOURCE := kernel/cyanogen/msm8974
-TARGET_KERNEL_CONFIG := chroma_defconfig
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
-
-# ANT+
-BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
+BOARD_MKBOOTIMG_ARGS      := --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+BOARD_DTBTOOL_ARGS        := -2
+TARGET_KERNEL_ARCH        := arm
+BOARD_KERNEL_CMDLINE      := console=tty60,115200,n8 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3b7 ehci-hcd.park=3 androidboot.bootdevice=msm_sdcc.1 vmalloc=480M androidboot.selinux=permissive
+TARGET_KERNEL_SOURCE      := kernel/cyanogen/msm8974
+TARGET_KERNEL_CONFIG      := cyanogenmod_k9_defconfig
 
 # Enable DIAG on debug builds
 ifneq ($(TARGET_BUILD_VARIANT),user)
 TARGET_KERNEL_ADDITIONAL_CONFIG:= cyanogenmod_debug_config
 endif
 
-# DT2W
-TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/touch/tp_dev/gesture_on"
-
-# QCOM Power (required for DT2W)
-TARGET_POWERHAL_VARIANT := qcom
-
-# QCOM
-BOARD_USES_QCOM_HARDWARE := true
-BOARD_USES_CYANOGEN_HARDWARE := true
-
 # Audio
-BOARD_USES_ALSA_AUDIO := true
+BOARD_USES_ALSA_AUDIO                      := true
 AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
-AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
-AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := true
-AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
+AUDIO_FEATURE_ENABLED_HWDEP_CAL            := true
+AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE  := true
+AUDIO_FEATURE_LOW_LATENCY_PRIMARY          := true
+
+# ANT+
+BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -90,35 +79,78 @@ TARGET_USE_COMPAT_GRALLOC_ALIGN := true
 # CM Hardware
 BOARD_HARDWARE_CLASS += device/zuk/ham/cmhw
 
-# Filesystem
-BOARD_BOOTIMAGE_PARTITION_SIZE     := 20971520
-BOARD_CACHEIMAGE_PARTITION_SIZE    := 134217728
-BOARD_PERSISTIMAGE_PARTITION_SIZE  := 33554432
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 20971520
-BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 2147483648
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 12815659008
-BOARD_USERDATAEXTRAIMAGE_PARTITION_SIZE := 59718467072
-BOARD_USERDATAEXTRAIMAGE_PARTITION_NAME := 64G
-BOARD_OEMIMAGE_PARTITION_SIZE      := 133169152
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
-BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_OEMIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_FLASH_BLOCK_SIZE := 131072
+# DT2W
+TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/touch/tp_dev/gesture_on"
 
-# GPS
-USE_DEVICE_SPECIFIC_GPS := true
-USE_DEVICE_SPECIFIC_LOC_API := true
+# ENCRYPTION
+TARGET_HW_DISK_ENCRYPTION := true
+
+# Enable dexpreopt to reduce first boot time
+ifeq ($(HOST_OS),linux)
+  ifeq ($(call match-word-in-list,$(TARGET_BUILD_VARIANT),user),true)
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+    endif
+  endif
+endif
+
+# Filesystem
+BOARD_BOOTIMAGE_PARTITION_SIZE          := 20971520
+BOARD_CACHEIMAGE_PARTITION_SIZE         := 134217728
+BOARD_PERSISTIMAGE_PARTITION_SIZE       := 33554432
+BOARD_RECOVERYIMAGE_PARTITION_SIZE      := 20971520
+BOARD_SYSTEMIMAGE_PARTITION_SIZE        := 2147483648
+BOARD_USERDATAIMAGE_PARTITION_SIZE      := 12815659008
+BOARD_USERDATAEXTRAIMAGE_PARTITION_SIZE := 59718467072
+BOARD_OEMIMAGE_PARTITION_SIZE           := 133169152
+BOARD_FLASH_BLOCK_SIZE                  := 131072
+BOARD_USERDATAEXTRAIMAGE_PARTITION_NAME := 64G
+TARGET_USERIMAGES_USE_EXT4              := true
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE       := ext4
+BOARD_PERSISTIMAGE_FILE_SYSTEM_TYPE     := ext4
+BOARD_OEMIMAGE_FILE_SYSTEM_TYPE         := ext4
 
 # Graphics
-MAX_EGL_CACHE_KEY_SIZE := 12*1024
-MAX_EGL_CACHE_SIZE := 2048*1024
-OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
+MAX_EGL_CACHE_SIZE               := 2048*1024
+MAX_EGL_CACHE_KEY_SIZE           := 12*1024
+USE_OPENGL_RENDERER              := true
 TARGET_CONTINUOUS_SPLASH_ENABLED := true
-TARGET_USES_ION := true
-USE_OPENGL_RENDERER := true
-NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+TARGET_USES_C2D_COMPOSITION      := true
+TARGET_USES_ION                  := true
+OVERRIDE_RS_DRIVER               := libRSDriver_adreno.so
+HAVE_ADRENO_SOURCE               := false
+NUM_FRAMEBUFFER_SURFACE_BUFFERS  := 3
+
+# GPS
+USE_DEVICE_SPECIFIC_GPS     := true
+USE_DEVICE_SPECIFIC_LOC_API := true
+TARGET_GPS_HAL_PATH         := device/zuk/ham/gps
+TARGET_PROVIDES_GPS_LOC_API := true
+
+# Lights
+TARGET_PROVIDES_LIBLIGHT := true
+
+# QCNE
+BOARD_USES_QCNE := true
+ifeq ($(BOARD_USES_QCNE),true)
+TARGET_LDPRELOAD := libNimsWrap.so
+endif
+
+# QCOM/CM HARDWARE
+BOARD_USES_QCOM_HARDWARE     := true
+BOARD_USES_CYANOGEN_HARDWARE := true
+
+# QCOM Power HAL
+TARGET_POWERHAL_VARIANT := qcom
+
+# Radio
+TARGET_RIL_VARIANT := caf
+
+# Releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
+
+# RPC 
+TARGET_NO_RPC := true
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
@@ -139,67 +171,15 @@ TARGET_USES_WCNSS_MAC_ADDR_REV   := true
 CONFIG_EAP_PROXY                 := qmi
 CONFIG_EAP_PROXY_DUAL_SIM        := true
 
-# Lights
-TARGET_PROVIDES_LIBLIGHT := true
-
-# RPC 
-TARGET_NO_RPC := true
-
-# GPS
-TARGET_GPS_HAL_PATH := device/zuk/ham/gps
-TARGET_PROVIDES_GPS_LOC_API := true
-
-# Radio
-TARGET_RIL_VARIANT := caf
-
-# Recovery
-TARGET_RECOVERY_FSTAB := device/zuk/ham/rootdir/etc/fstab.qcom
-
-# Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
-
-# ENCRYPTION
-TARGET_HW_DISK_ENCRYPTION := true
-
-# Enable dexpreopt to reduce first boot time
-ifeq ($(HOST_OS),linux)
-  ifeq ($(call match-word-in-list,$(TARGET_BUILD_VARIANT),user),true)
-    ifeq ($(WITH_DEXPREOPT),)
-      WITH_DEXPREOPT := true
-    endif
-  endif
-endif
-
-# inherit from QC proprietary
+# Inherit from QC proprietary
 ifneq ($(QCPATH),)
 -include $(QCPATH)/common/msm8974/BoardConfigVendor.mk
 endif
 
-BOARD_USES_QCNE := true
-
-# QCNE
-ifeq ($(BOARD_USES_QCNE),true)
-TARGET_LDPRELOAD := libNimsWrap.so
-endif
-
-# TWRP
-DEVICE_RESOLUTION := 1080x1920
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
-RECOVERY_SDCARD_ON_DATA := true
-BOARD_HAS_NO_REAL_SDCARD := true
-TW_TARGET_USES_QCOM_BSP := true
-TW_NO_USB_STORAGE := true
-TW_INCLUDE_CRYPTO := true
-BOARD_SUPPRESS_SECURE_ERASE := true
-TARGET_RECOVERY_PIXEL_FORMAT := "RGB_565"
-TARGET_USERIMAGES_USE_F2FS := true
-
-PRODUCT_COPY_FILES += device/zuk/ham/twrp.fstab:recovery/root/etc/twrp.fstab
-
 # SELinux policies
-# qcom sepolicy
 include device/qcom/sepolicy/sepolicy.mk
 
+# QCOM sepolicy
 BOARD_SEPOLICY_DIRS += \
     device/zuk/ham/sepolicy
 
