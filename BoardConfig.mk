@@ -65,15 +65,15 @@ AUDIO_FEATURE_LOW_LATENCY_PRIMARY          := true
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Bluetooth
-BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_QCOM := true
-QCOM_BT_USE_SMD_TTY := true
-BLUETOOTH_HCI_USE_MCT := true
+BOARD_HAVE_BLUETOOTH                        := true
+BOARD_HAVE_BLUETOOTH_QCOM                   := true
+QCOM_BT_USE_SMD_TTY                         := true
+BLUETOOTH_HCI_USE_MCT                       := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/zuk/ham/bluetooth
 
 # Camera
-TARGET_USE_VENDOR_CAMERA_EXT := true
-USE_DEVICE_SPECIFIC_CAMERA := true
+TARGET_USE_VENDOR_CAMERA_EXT    := true
+USE_DEVICE_SPECIFIC_CAMERA      := true
 TARGET_USE_COMPAT_GRALLOC_ALIGN := true
 
 # CM Hardware
@@ -131,7 +131,7 @@ TARGET_PROVIDES_GPS_LOC_API := true
 TARGET_PROVIDES_LIBLIGHT := true
 
 # QCNE
-BOARD_USES_QCNE := true
+BOARD_USES_QCNE  := true
 ifeq ($(BOARD_USES_QCNE),true)
 TARGET_LDPRELOAD := libNimsWrap.so
 endif
@@ -145,6 +145,9 @@ TARGET_POWERHAL_VARIANT := qcom
 
 # Radio
 TARGET_RIL_VARIANT := caf
+
+# Recovery
+TARGET_RECOVERY_FSTAB := device/zuk/ham/rootdir/etc/fstab.qcom
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
