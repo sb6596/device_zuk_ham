@@ -47,7 +47,6 @@ audio_hal.period_size=192
 audio.offload.buffer.size.kb=32
 audio.offload.video=false
 av.streaming.offload.enable=false
-use.voice.path.for.pcm.voip=true
 audio.offload.multiple.enabled=false
 media.aac_51_output_enabled=true
 audio.offload.pcm.16bit.enable=true
