@@ -24,8 +24,9 @@ ro.qti.sensors.tilt_detector=true
 ro.qti.sensors.scrn_ortn=true
 
 # gps
-persist.gps.qc_nlp_in_use=1
+persist.gps.qc_nlp_in_use=0
 ro.gps.agps_provider=1
+ro.pip.gated=0
 
 # cabl is handled by the panel
 ro.qualcomm.cabl=0
