@@ -148,6 +148,7 @@ TARGET_POWERHAL_VARIANT := qcom
 
 # Radio
 TARGET_RIL_VARIANT := caf
+BOARD_GLOBAL_CFLAGS+= -DUSE_RIL_VERSION_11
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/zuk/ham/rootdir/etc/fstab.qcom
