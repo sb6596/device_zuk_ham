@@ -40,12 +40,6 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
     init.recovery.qcom.rc
 
-# SSR
-ifeq ($(TARGET_BUILD_VARIANT),user)
-PRODUCT_PACKAGES += \
-    init.qcom.ssr.rc
-endif
-
 # Emergenry number list
 PRODUCT_PACKAGES += \
     qcril_cm.db
