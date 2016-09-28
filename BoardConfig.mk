@@ -141,7 +141,6 @@ TARGET_POWERHAL_VARIANT := qcom
 
 # Radio
 TARGET_RIL_VARIANT := caf
-BOARD_GLOBAL_CFLAGS+= -DUSE_RIL_VERSION_11
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/zuk/ham/rootdir/etc/fstab.qcom
@@ -151,9 +150,6 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
 
 # RPC 
 TARGET_NO_RPC := true
-
-# Sensors Compat
-BOARD_GLOBAL_CFLAGS += -DCOMPAT_SENSORS_M
 
 # Wifi
 BOARD_HAS_QCOM_WLAN              := true
