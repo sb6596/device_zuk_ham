@@ -38,20 +38,11 @@ etc/firmware/venus.mdt
 
 # DRM
 -bin/qseecomd
--etc/permissions/com.google.widevine.software.drm.xml
--framework/com.google.widevine.software.drm.jar
 -vendor/lib/libQSEEComAPI.so
--lib/libdrmdecrypt.so
--vendor/lib/libdrmdiag.so
 -vendor/lib/libdrmfs.so
 -vendor/lib/libdrmtime.so
 -vendor/lib/librpmb.so
 -vendor/lib/libssd.so
--vendor/lib/libwvdrm_L3.so
--vendor/lib/libwvm.so
--vendor/lib/libWVStreamControlAPI_L3.so
--vendor/lib/drm/libdrmwvmplugin.so
--vendor/lib/mediadrm/libwvdrmengine.so
 
 # GPS
 -bin/loc_launcher
@@ -185,6 +176,13 @@ etc/firmware/venus.mdt
 # Wap Push
 #etc/permissions/com.qrd.wappush.xml
 #-framework/com.qrd.wappush.jar
+
+# Widevine
+vendor/lib/libwvdrm_L3.so
+vendor/lib/libwvm.so
+vendor/lib/libWVStreamControlAPI_L3.so
+vendor/lib/drm/libdrmwvmplugin.so
+vendor/lib/mediadrm/libwvdrmengine.so
 
 # WiFi
 -lib/libwpa_qmi_eap_proxy.so
