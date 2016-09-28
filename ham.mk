@@ -205,7 +205,8 @@ PRODUCT_PACKAGES += \
     libbson \
     libcnefeatureconfig \
     libtinyxml \
-    libxml2
+    libxml2 \
+    libprotobuf-cpp-full 
 
 # ANT+
 PRODUCT_PACKAGES += \
