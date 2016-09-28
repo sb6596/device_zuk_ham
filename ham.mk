@@ -84,7 +84,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    Snap
+    camera.msm8974 \
+	Snap
 
 # Charger
 PRODUCT_PACKAGES += \
