@@ -57,6 +57,7 @@ audio.offload.pcm.16bit.enable=true
 audio.offload.pcm.24bit.enable=true
 audio.deep_buffer.media=true
 bluetooth.hfp.client=1
+qcom.bluetooth.soc=smd
 camera2.portability.force_api=1
 persist.hwc.mdpcomp.enable=true
 persist.timed.enable=true
