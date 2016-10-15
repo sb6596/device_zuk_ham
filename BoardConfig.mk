@@ -71,6 +71,9 @@ QCOM_BT_USE_SMD_TTY                         := true
 BLUETOOTH_HCI_USE_MCT                       := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/zuk/ham/bluetooth
 
+# Boot animation
+TARGET_BOOTANIMATION_MULTITHREAD_DECODE := true
+
 # Camera
 TARGET_USE_VENDOR_CAMERA_EXT    := true
 USE_DEVICE_SPECIFIC_CAMERA      := true
