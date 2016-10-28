@@ -41,12 +41,9 @@ ro.ril.em_redial_vt_failover=true
 # Factory reset protection
 ro.frp.pst=/dev/block/bootdevice/by-name/frp
 
-# Media
-media.stagefright.legacyencoder=true
-media.stagefright.less-secure=true
-
 # Properties from ham.mk
 mm.enable.smoothstreaming=true
+media.stagefright.codecremote=false
 use.dedicated.device.for.voip=true
 ro.config.vc_call_vol_steps=6
 audio_hal.period_size=192
