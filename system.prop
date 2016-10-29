@@ -9,6 +9,22 @@ persist.radio.add_power_save=1
 persist.radio.apm_sim_not_pwdn=1
 persist.radio.custom_ecc=1
 
+# Bluetooth
+bluetooth.hfp.client=1
+qcom.bluetooth.soc=smd
+ro.bluetooth.hfp.ver=1.7
+ro.qualcomm.bt.hci_transport=smd
+
+ro.bluetooth.dun=false
+ro.bluetooth.sap=false
+ro.qualcomm.bluetooth.ftp=true
+ro.qualcomm.bluetooth.hfp=true
+ro.qualcomm.bluetooth.hsp=true
+ro.qualcomm.bluetooth.map=true
+ro.qualcomm.bluetooth.nap=true
+ro.qualcomm.bluetooth.opp=true
+ro.qualcomm.bluetooth.pbap=true
+
 # enable multisim
 persist.radio.multisim.config=dsds
 
@@ -56,8 +72,6 @@ media.aac_51_output_enabled=true
 audio.offload.pcm.16bit.enable=true
 audio.offload.pcm.24bit.enable=true
 audio.deep_buffer.media=true
-bluetooth.hfp.client=1
-qcom.bluetooth.soc=smd
 camera2.portability.force_api=1
 persist.hwc.mdpcomp.enable=true
 persist.timed.enable=true

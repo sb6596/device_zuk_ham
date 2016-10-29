@@ -67,6 +67,8 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
+    mkdir /persist/bluetooth 0770 bluetooth bluetooth
+	
     # For setting tcp delayed ack
     chown system system /sys/kernel/ipv4/tcp_delack_seg
     chown system system /sys/kernel/ipv4/tcp_use_userconfig
@@ -420,20 +422,13 @@ service time_daemon /system/bin/time_daemon
    group root
 
 on property:vold.decrypt=trigger_restart_framework
-   start config_bluetooth
+   start config_bt_addr
    start wcnss-service
 
 service config_bt_addr /system/bin/btnvtool -O
     class core
     user bluetooth
     group bluetooth radio
-    oneshot
-
-service config_bluetooth /system/bin/sh /system/etc/init.qcom.bt.sh "onboot"
-    class core
-    user root
-    group bluetooth net_bt_admin qcom_diag radio
-    oneshot
 
 service hciattach /system/bin/sh /system/etc/init.qcom.bt.sh
     class late_start
