@@ -17,8 +17,10 @@
 # TODO: shouldn't be here
 BOARD_VENDOR := zuk
 
+DEVICE_PATH := device/zuk/ham
+
 #Include path
-TARGET_SPECIFIC_HEADER_PATH += device/zuk/ham/include
+TARGET_SPECIFIC_HEADER_PATH += $(DEVICE_PATH)/include
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
@@ -69,7 +71,7 @@ BOARD_HAVE_BLUETOOTH                        := true
 BOARD_HAVE_BLUETOOTH_QCOM                   := true
 QCOM_BT_USE_SMD_TTY                         := true
 BLUETOOTH_HCI_USE_MCT                       := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/zuk/ham/bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
 # Boot animation
 TARGET_BOOTANIMATION_MULTITHREAD_DECODE := true
@@ -84,7 +86,7 @@ TARGET_HAS_LEGACY_CAMERA_HAL1   := true
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CM Hardware
-BOARD_HARDWARE_CLASS += device/zuk/ham/cmhw
+BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/cmhw
 
 # DT2W
 TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/touch/tp_dev/gesture_on"
@@ -151,10 +153,10 @@ TARGET_POWERHAL_VARIANT := qcom
 TARGET_RIL_VARIANT := caf
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/zuk/ham/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 
 # Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
+TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
 # RPC 
 TARGET_NO_RPC := true
@@ -191,6 +193,6 @@ endif
 
 # QCOM sepolicy
 #BOARD_SEPOLICY_DIRS += \
-#    device/zuk/ham/sepolicy
+#    $(DEVICE_PATH)/sepolicy
 
 -include vendor/zuk/ham/BoardConfigVendor.mk
