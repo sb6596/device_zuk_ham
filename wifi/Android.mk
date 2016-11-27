@@ -1,8 +1,5 @@
 LOCAL_PATH:= $(call my-dir)
 
-#----------------------------------------------------------------------
-# Copy additional target-specific files
-#----------------------------------------------------------------------
 ifeq ($(strip $(BOARD_HAS_QCOM_WLAN)),true)
 include $(CLEAR_VARS)
 LOCAL_MODULE       := wpa_supplicant_overlay.conf
@@ -43,5 +40,4 @@ LOCAL_MODULE_CLASS := ETC
 LOCAL_MODULE_PATH  := $(TARGET_OUT_ETC)/hostapd
 LOCAL_SRC_FILES    := hostapd.deny
 include $(BUILD_PREBUILT)
-
 endif
