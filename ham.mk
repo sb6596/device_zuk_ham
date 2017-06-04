@@ -41,6 +41,8 @@ PRODUCT_PACKAGES += \
     init.qcom.rc \
     init.qcom.power.rc \
     init.qcom.usb.rc \
+    init.spectrum.rc \
+    init.spectrum.sh \
     init.recovery.qcom.rc
 
 # Emergenry number list
