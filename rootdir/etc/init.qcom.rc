@@ -301,7 +301,11 @@ service qmuxd /system/bin/qmuxd
 service netmgrd /system/bin/netmgrd
     class main
     user root
+<<<<<<< HEAD
     group radio
+=======
+    group root wifi wakelock radio inet qcom_diag system
+>>>>>>> aed5a3a... Grant some extra permissions to netmgrd
 
 # QCOM sensor
 service sensors /system/bin/sensors.qcom
