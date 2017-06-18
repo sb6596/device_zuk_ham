@@ -23,9 +23,9 @@
 // Disables read remote device feature
 #define BTA_SKIP_BLE_READ_REMOTE_FEAT FALSE
 #define MAX_L2CAP_CHANNELS    16
-#define BLE_VND_INCLUDED   TRUE
+#define BLE_VND_INCLUDED   FALSE
 // skips conn update at conn completion
-#define BTA_BLE_SKIP_CONN_UPD  FALSE
+#define BTA_BLE_SKIP_CONN_UPD  TRUE
 #define BLE_PERIPHERAL_ADV_NAME  FALSE
 #define BT_CLEAN_TURN_ON_DISABLED 1
 
