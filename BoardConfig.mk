@@ -54,6 +54,9 @@ BOARD_KERNEL_CMDLINE               := console=tty60,115200,n8 androidboot.hardwa
 TARGET_KERNEL_SOURCE               := kernel/cyanogen/msm8974
 TARGET_KERNEL_CONFIG               := radioactive_defconfig
 
+# Fixes Wifi-Mobile Data toggle issue
+MALLOC_SVELTE := true
+
 # Enable DIAG on debug builds
 ifneq ($(TARGET_BUILD_VARIANT),user)
 TARGET_KERNEL_ADDITIONAL_CONFIG:= cyanogenmod_debug_config
