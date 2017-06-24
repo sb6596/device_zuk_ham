@@ -53,6 +53,7 @@ TARGET_KERNEL_ARCH                 := arm
 BOARD_KERNEL_CMDLINE               := console=tty60,115200,n8 androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3b7 ehci-hcd.park=3 androidboot.bootdevice=msm_sdcc.1 vmalloc=480M androidboot.selinux=permissive
 TARGET_KERNEL_SOURCE               := kernel/cyanogen/msm8974
 TARGET_KERNEL_CONFIG               := radioactive_defconfig
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 
 # Fixes Wifi-Mobile Data toggle issue
 MALLOC_SVELTE := true
