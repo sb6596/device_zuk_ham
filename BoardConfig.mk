@@ -192,11 +192,6 @@ TARGET_USES_WCNSS_MAC_ADDR_REV   := true
 CONFIG_EAP_PROXY                 := qmi
 CONFIG_EAP_PROXY_DUAL_SIM        := true
 
-# Inherit from QC proprietary
-ifneq ($(QCPATH),)
--include $(QCPATH)/common/msm8974/BoardConfigVendor.mk
-endif
-
 # SELinux policies
 include device/qcom/sepolicy/sepolicy.mk
 
