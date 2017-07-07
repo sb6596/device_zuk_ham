@@ -1,5 +1,5 @@
-#
-# Copyright (C) 2016 The CyanogenMod Project
+# Copyright (C) 2014-2016 The CyanogenMod Project
+# Copyright (C) 2017 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,10 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-ifneq ($(QCPATH),)
-$(call inherit-product-if-exists, $(QCPATH)/common/config/device-vendor.mk)
-endif
 
 # Set CM_BUILDTYPE
 CM_BUILDTYPE := NIGHTLY
@@ -261,6 +257,3 @@ $(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-3072-hwui
 # call the proprietary setup
 $(call inherit-product, vendor/zuk/ham/ham-vendor.mk)
 
-ifneq ($(QCPATH),)
-$(call inherit-product-if-exists, $(QCPATH)/prebuilt_HY11/target/product/msm8974/prebuilt.mk)
-endif
