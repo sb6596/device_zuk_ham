@@ -181,6 +181,8 @@ TARGET_USES_WCNSS_CTRL           := true
 TARGET_USES_QCOM_WCNSS_QMI       := true
 TARGET_USES_WCNSS_MAC_ADDR_REV   := true
 
+USE_PREBUILT_LIBQSAP_SDK         := true
+
 # Wifi - EAP-SIM
 CONFIG_EAP_PROXY                 := qmi
 CONFIG_EAP_PROXY_DUAL_SIM        := true
