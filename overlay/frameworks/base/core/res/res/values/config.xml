@@ -250,11 +250,11 @@
 
     <!-- Does the notification LED support multiple colors?
          Used to decide if the user can change the colors -->
-    <bool name="config_multiColorNotificationLed">true</bool>
+    <!-- bool name="config_multiColorNotificationLed">true</bool -->
 
     <!-- Does the battery LED support multiple colors?
          Used to decide if the user can change the colors -->
-    <bool name="config_multiColorBatteryLed">true</bool>
+    <!-- bool name="config_multiColorBatteryLed">true</bool -->
 
     <!-- Base "touch slop" value used by ViewConfiguration as a
          movement threshold where scrolling should begin. -->
@@ -315,5 +315,5 @@
     <bool name="config_enableAutoPowerModes">true</bool>
 
     <!-- Enable blur support --> 
-    <bool name="config_ui_blur_enabled">true</bool>
+    <bool name="config_uiBlurEnabled">true</bool>
 </resources>
