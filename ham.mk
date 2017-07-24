@@ -159,13 +159,6 @@ PRODUCT_COPY_FILES += \
 # Power
 PRODUCT_PACKAGES += \
     power.msm8974
-
-# Telephony-ext
-PRODUCT_PACKAGES += \
-    telephony-ext
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
 	
 # Keylayouts
 PRODUCT_COPY_FILES += \
