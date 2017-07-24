@@ -156,9 +156,6 @@ PRODUCT_COPY_FILES += \
     libstagefrighthw \
     qcmediaplayer
 
-PRODUCT_BOOT_JARS += \
-    qcmediaplayer
-
 # Power
 PRODUCT_PACKAGES += \
     power.msm8974
