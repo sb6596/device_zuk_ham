@@ -93,7 +93,6 @@ persist.timed.enable=true
 
 # Wifi
 wifi.interface=wlan0
-wifi.supplicant_scan_interval=15
 
 # Factory reset protection
 ro.frp.pst=/dev/block/bootdevice/by-name/frp
@@ -107,3 +106,8 @@ ro.sys.sdcardfs=true
 
 # Google assistant
 ro.opa.eligible_device=true
+
+# Higher fling velocities for smooth scrolling and to provide better responsiveness - From HalogenOS Team
+ro.min.fling_velocity=160
+ro.max.fling_velocity=20000
+
