@@ -321,6 +321,7 @@ void QCamera2HardwareInterface::stop_preview(struct camera_device *device)
     }
     ALOGE("[KPI Perf] %s: E PROFILE_STOP_PREVIEW", __func__);
     hw->lockAPI();
+    qcamera_api_result_t apiResult;
     int32_t ret = hw->processAPI(QCAMERA_SM_EVT_STOP_PREVIEW, NULL);
     if (ret == NO_ERROR) {
         hw->waitAPIResult(QCAMERA_SM_EVT_STOP_PREVIEW);
@@ -1044,6 +1045,7 @@ int QCamera2HardwareInterface::openCamera(struct hw_device_t **hw_device)
         *hw_device = NULL;
         return PERMISSION_DENIED;
     }
+
     ALOGE("[KPI Perf] %s: E PROFILE_OPEN_CAMERA camera id %d", __func__,mCameraId);
     rc = openCamera();
     if (rc == NO_ERROR){
@@ -3446,7 +3448,9 @@ int32_t QCamera2HardwareInterface::processHDRData(cam_asd_hdr_scene_data_t hdr_s
     } else {
         m_HDRSceneEnabled = false;
     }
+    pthread_mutex_lock(&m_parm_lock);
     mParameters.setHDRSceneEnable(m_HDRSceneEnabled);
+    pthread_mutex_unlock(&m_parm_lock);
 
     if ( msgTypeEnabled(CAMERA_MSG_META_DATA) ) {
 
@@ -3927,21 +3931,6 @@ int32_t QCamera2HardwareInterface::addPreviewChannel()
         ALOGE("%s: add preview stream failed, ret = %d", __func__, rc);
         delete pChannel;
         return rc;
-    }
-
-    property_get("persist.camera.raw_yuv", value, "0");
-    raw_yuv = atoi(value) > 0 ? true : false;
-    if ( raw_yuv &&
-         ( mParameters.getRecordingHintValue() == false ) ) {
-        rc = addStreamToChannel(pChannel,
-                                CAM_STREAM_TYPE_RAW,
-                                preview_raw_stream_cb_routine,
-                                this);
-        if (rc != NO_ERROR) {
-            ALOGE("%s: add raw stream failed, ret = %d", __func__, rc);
-            delete pChannel;
-            return rc;
-        }
     }
 
     m_channels[QCAMERA_CH_TYPE_PREVIEW] = pChannel;
