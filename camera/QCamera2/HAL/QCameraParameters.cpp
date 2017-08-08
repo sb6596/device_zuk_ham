@@ -1658,15 +1658,8 @@ bool QCameraParameters::UpdateHFRFrameRate(const QCameraParameters& params)
     ALOGE("%s: Requested params - : minFps = %d, maxFps = %d ",
                 __func__, parm_minfps, parm_maxfps);
 
-    const char *hfrStr;
+    const char *hfrStr = params.get(KEY_QC_VIDEO_HIGH_FRAME_RATE);
     const char *hsrStr = params.get(KEY_QC_VIDEO_HIGH_SPEED_RECORDING);
-
-// Set HFR for OnePlus Camera app (slow-motion)
-     if (parm_minfps == 60000 && parm_maxfps == 60000) {
-         hfrStr = "60";
-     } else {
-         hfrStr = params.get(KEY_QC_VIDEO_HIGH_FRAME_RATE);
-     }
 
     const char *prev_hfrStr = CameraParameters::get(KEY_QC_VIDEO_HIGH_FRAME_RATE);
     const char *prev_hsrStr = CameraParameters::get(KEY_QC_VIDEO_HIGH_SPEED_RECORDING);
@@ -1689,7 +1682,7 @@ bool QCameraParameters::UpdateHFRFrameRate(const QCameraParameters& params)
     else if (hsrStr != NULL && strcmp(hsrStr,"off")){
         hfrMode = lookupAttr(HFR_MODES_MAP,
                                sizeof(HFR_MODES_MAP)/sizeof(QCameraMap),
-                               hsrStr);
+                               hfrStr);
         if(NAME_NOT_FOUND != hfrMode) newHfrMode = hfrMode;
     }
     ALOGE("%s: prevHfrMode - %d, currentHfrMode = %d ",
@@ -1722,8 +1715,8 @@ bool QCameraParameters::UpdateHFRFrameRate(const QCameraParameters& params)
                     max_fps = 0;
                     break;
             }
-            m_hfrFpsRange.video_min_fps = min_fps;
-            m_hfrFpsRange.video_max_fps = max_fps;
+            m_hfrFpsRange.video_min_fps = (float)min_fps;
+            m_hfrFpsRange.video_max_fps = (float)max_fps;
 
             ALOGE("%s: HFR mode (%d) Set video FPS : minFps = %d, maxFps = %d ",
                    __func__, mHfrMode, min_fps, max_fps);
@@ -1739,6 +1732,7 @@ bool QCameraParameters::UpdateHFRFrameRate(const QCameraParameters& params)
         m_bHfrMode = false;
         ALOGE("HFR mode is OFF");
     }
+
     return updateNeeded;
 }
 
@@ -2358,43 +2352,6 @@ int32_t QCameraParameters::setVideoHDR(const QCameraParameters& params)
  *              NO_ERROR  -- success
  *              none-zero failure code
  *==========================================================================*/
-int32_t QCameraParameters::setSnapshotHDR(const QCameraParameters& params)
-{
-
-    const char *str = params.get(KEY_QC_SNAPSHOT_HDR);
-	const char *prev_str = get(KEY_QC_SNAPSHOT_HDR);
-    char prop[PROPERTY_VALUE_MAX];
-    memset(prop, 0, sizeof(prop));
-    ALOGE("%s :E 0. Snapshot HDR set to: %s", __func__, str);
-    property_get("persist.camera.snapshot.hdr", prop, VALUE_OFF);
-
-    /* logic for setprop to enable/disable */
-    if (prev_str == NULL ||
-         strcmp(prev_str, prop) != 0 ) {
-         ALOGE("%s :2. Snapshot HDR set to: %s", __func__, prop);
-         updateParamEntry(KEY_QC_SNAPSHOT_HDR, prop);
-         // Need restart
-         m_bNeedRestart = true;
-         return setSnapshotHDR(prop);
-    }
-    /* logic for app to enable/disable */
-    if (str != NULL) {
-       if (prev_str == NULL ||
-           strcmp(str, prev_str) != 0) {
-           ALOGE("%s : 1. Snapshot HDR set to: %s", __func__, str);
-           updateParamEntry(KEY_QC_SNAPSHOT_HDR, str);
-           // Need restart
-           m_bNeedRestart = true;
-           return setSnapshotHDR(str);
-
-       }
-    }
-
-    ALOGE("%s :X 3. Snapshot HDR set to: prev_str %s, prop %s", __func__, prev_str, prop);
-    return NO_ERROR;
-}
-
-
 /*===========================================================================
  * FUNCTION   : setVtEnable
  *
@@ -3720,7 +3677,6 @@ int32_t QCameraParameters::updateParameters(QCameraParameters& params,
     if ((rc = setFaceRecognition(params)))              final_rc = rc;
     if ((rc = setFlip(params)))                         final_rc = rc;
     if ((rc = setVideoHDR(params)))                     final_rc = rc;
-    if ((rc = setSnapshotHDR(params)))                     final_rc = rc;
     if ((rc = setVtEnable(params)))                     final_rc = rc;
     if ((rc = setBurstNum(params)))                     final_rc = rc;
     if ((rc = setSnapshotFDReq(params)))                final_rc = rc;
@@ -4999,27 +4955,6 @@ int32_t QCameraParameters::setSceneDetect(const char *sceneDetect)
  *              NO_ERROR  -- success
  *              none-zero failure code
  *==========================================================================*/
-int32_t QCameraParameters::setSnapshotHDR(const char *snapshotHDR)
-{
-    if (snapshotHDR != NULL) {
-        int32_t value = lookupAttr(ON_OFF_MODES_MAP,
-                                   sizeof(ON_OFF_MODES_MAP)/sizeof(QCameraMap),
-                                   snapshotHDR);
-        if (value != NAME_NOT_FOUND) {
-            ALOGD("%s: Setting Snasphot HDR %s", __func__, snapshotHDR);
-            updateParamEntry(KEY_QC_SNAPSHOT_HDR, snapshotHDR);
-            return AddSetParmEntryToBatch(m_pParamBuf,
-                                          CAM_INTF_PARM_SNAPSHOT_HDR,
-                                          sizeof(value),
-                                          &value);
-        }
-    }
-    ALOGE("Invalid Snapshot HDR value: %s",
-          (snapshotHDR == NULL) ? "NULL" : snapshotHDR);
-    return BAD_VALUE;
-}
-
-
 /*===========================================================================
  * FUNCTION   : setVideoHDR
  *
