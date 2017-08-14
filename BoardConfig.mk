@@ -99,7 +99,10 @@ BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/cmhw
 TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/touch/tp_dev/gesture_on"
 
 # ENCRYPTION
-TARGET_HW_DISK_ENCRYPTION := true
+TARGET_HW_DISK_ENCRYPTION := false
+
+# Workaround for factory issue
+BOARD_VOLD_CRYPTFS_MIGRATE := true
 
 # Enable dexpreopt to speed boot time
 ifeq ($(HOST_OS),linux)
@@ -153,13 +156,10 @@ TARGET_PROVIDES_LIBLIGHT := true
 
 # QCOM/CM HARDWARE
 BOARD_USES_QCOM_HARDWARE     := true
-BOARD_USES_CYANOGEN_HARDWARE := true
+BOARD_USES_CYANOGEN_HARDWARE := false
 
 # QCOM Power HAL
 TARGET_POWERHAL_VARIANT := qcom
-
-# Radio
-TARGET_RIL_VARIANT := caf
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
@@ -189,7 +189,6 @@ TARGET_USES_QCOM_WCNSS_QMI       := true
 TARGET_USES_WCNSS_MAC_ADDR_REV   := true
 
 # Wifi - EAP-SIM
-CONFIG_EAP_PROXY                 := qmi
 CONFIG_EAP_PROXY_DUAL_SIM        := true
 
 # Inherit from QC proprietary

@@ -18,9 +18,6 @@ ifneq ($(QCPATH),)
 $(call inherit-product-if-exists, $(QCPATH)/common/config/device-vendor.mk)
 endif
 
-# Set CM_BUILDTYPE
-CM_BUILDTYPE := NIGHTLY
-
 # Firmware
 ADD_RADIO_FILES ?= true
 TARGET_RELEASETOOLS_EXTENSIONS := device/zuk/ham
@@ -163,13 +160,6 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_PACKAGES += \
     power.msm8974
 
-# Telephony-ext
-PRODUCT_PACKAGES += \
-    telephony-ext
-
-PRODUCT_BOOT_JARS += \
-    telephony-ext
-	
 # Keylayouts
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
@@ -253,6 +243,11 @@ PRODUCT_COPY_FILES += \
 # Data
 PRODUCT_PACKAGES += \
     librmnetctl
+
+# Limit dex2oat threads to improve thermals
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dex2oat-threads=2 \
+    dalvik.vm.image-dex2oat-threads=4
 
 # Device uses high-density artwork where available
 PRODUCT_AAPT_CONFIG := normal
