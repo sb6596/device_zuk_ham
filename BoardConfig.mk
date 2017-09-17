@@ -167,6 +167,9 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := $(DEVICE_PATH)
 
+# Compile libhwui in performance mode
+HWUI_COMPILE_FOR_PERF := true
+
 # RPC 
 TARGET_NO_RPC := true
 
