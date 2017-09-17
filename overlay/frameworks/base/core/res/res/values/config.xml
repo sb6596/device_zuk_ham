@@ -44,7 +44,7 @@
             64 - Volume rocker
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
-    <integer name="config_deviceHardwareWakeKeys">65</integer>
+    <!--integer name="config_deviceHardwareWakeKeys">65</integer-->
 
     <!-- Control the behavior when the user long presses the home button.
             0 - Nothing
@@ -322,5 +322,5 @@
     <bool name="config_enableAutoPowerModes">true</bool>
 
     <!-- Enable blur support --> 
-    <bool name="config_uiBlurEnabled">true</bool>
+    <!--bool name="config_uiBlurEnabled">true</bool-->
 </resources>
