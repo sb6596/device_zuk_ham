@@ -928,6 +928,7 @@
     <path name="qchat-call">
         <ctl name="SLIM_0_RX_Voice Mixer QCHAT" value="1" />
         <ctl name="QCHAT_Tx Mixer SLIM_0_TX_QCHAT" value="1" />
+    </path>
 
     <!-- Analog output devices -->
     <path name="ear">
@@ -1896,5 +1897,4 @@
         <path name="voice-handset" />
         <path name="deep-buffer-playback" />
     </path>
-
 </mixer>
