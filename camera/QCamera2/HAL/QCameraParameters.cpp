@@ -328,10 +328,6 @@ const char QCameraParameters::CDS_MODE_AUTO[] = "auto";
 
 const char QCameraParameters::KEY_SELECTED_AUTO_SCENE[] = "selected-auto-scene";
 
-// Values missing in nougat
-const char QCameraParameters::FOCUS_MODE_MANUAL_POSITION[] = "manual";
-const char QCameraParameters::WHITE_BALANCE_MANUAL_CCT[] = "manual-cct";
-
 static const char* portrait = "portrait";
 static const char* landscape = "landscape";
 
@@ -525,7 +521,7 @@ const QCameraParameters::QCameraMap QCameraParameters::ANTIBANDING_MODES_MAP[] =
 
 const QCameraParameters::QCameraMap QCameraParameters::ISO_MODES_MAP[] = {
     { ISO_AUTO,  CAM_ISO_MODE_AUTO },
-    { ISO_HJR,   CAM_ISO_MODE_AUTO }, // ISO DEBLUR is broken in the backend
+    { ISO_HJR,   CAM_ISO_MODE_DEBLUR },
     { ISO_100,   CAM_ISO_MODE_100 },
     { ISO_200,   CAM_ISO_MODE_200 },
     { ISO_400,   CAM_ISO_MODE_400 },
@@ -1672,16 +1668,14 @@ bool QCameraParameters::UpdateHFRFrameRate(const QCameraParameters& params)
        updateParamEntry(KEY_QC_VIDEO_HIGH_SPEED_RECORDING, hsrStr);
     }
     // check if HFR is enabled
-    if(hfrStr != NULL &&
-        ((hsrStr != NULL && !strcmp(hsrStr, "off")) || hsrStr == NULL)){
+    if(hfrStr != NULL && strcmp(hfrStr, "off")) {
         hfrMode = lookupAttr(HFR_MODES_MAP,
                                sizeof(HFR_MODES_MAP)/sizeof(QCameraMap),
                                hfrStr);
         if(NAME_NOT_FOUND != hfrMode) newHfrMode = hfrMode;
     }
     // check if HSR is enabled
-    else if(hsrStr != NULL &&
-        ((hfrStr != NULL && !strcmp(hfrStr, "off")) || hfrStr == NULL)){
+    else if (hsrStr != NULL && strcmp(hsrStr,"off")){
         hfrMode = lookupAttr(HFR_MODES_MAP,
                                sizeof(HFR_MODES_MAP)/sizeof(QCameraMap),
                                hfrStr);
@@ -1811,7 +1805,6 @@ int32_t QCameraParameters::setFocusMode(const QCameraParameters& params)
     const char *str = params.get(KEY_FOCUS_MODE);
     const char *prev_str = get(KEY_FOCUS_MODE);
 
-#if 0 // Allow frontend to control scene focus mode
     //Find whether scene mode is Auto or not. We should set focus mode set by app
     //only in Auto scene mode.  For other scene modes, Focus mode corresponding to
     //a scene is decided and set in backend. In HAL, it is taken care in setScenePreferences.
@@ -1819,15 +1812,10 @@ int32_t QCameraParameters::setFocusMode(const QCameraParameters& params)
     const char *scene_str = params.get(KEY_SCENE_MODE);
     if(!strcmp(scene_str, SCENE_MODE_AUTO))
         isAutoSceneMode = TRUE;
-#endif
 
     if (str != NULL) {
         if (prev_str == NULL ||
-#if 0 // Allow frontend to control scene focus mode
             (strcmp(str, prev_str) != 0 && isAutoSceneMode)){
-#else
-            (strcmp(str, prev_str) != 0)){
-#endif
                 rc = setFocusMode(str);
         }
     }
@@ -1900,11 +1888,11 @@ int32_t QCameraParameters::setSceneFocusMode(const QCameraParameters& params)
     if(sceneModeSet && m_pCapability->supported_focus_modes_cnt > 0){
         bool isAutoFocusModeSupported = FALSE;
         for(int i=0;i < m_pCapability->supported_focus_modes_cnt; i++){
-             if(CAM_FOCUS_MODE_CONTINOUS_PICTURE == m_pCapability->supported_focus_modes[i])
+             if(CAM_FOCUS_MODE_AUTO == m_pCapability->supported_focus_modes[i])
                 isAutoFocusModeSupported = TRUE;
         }
         if (isAutoFocusModeSupported) {
-            rc = setFocusMode(FOCUS_MODE_CONTINUOUS_PICTURE);
+            rc = setFocusMode(FOCUS_MODE_AUTO);
         } else {
             rc = setFocusMode(FOCUS_MODE_FIXED);
         }
@@ -3304,16 +3292,8 @@ int32_t QCameraParameters::setNoDisplayMode(const QCameraParameters& params)
  *==========================================================================*/
 int32_t QCameraParameters::setZslMode(const QCameraParameters& params)
 {
-    const char *str_val;
+    const char *str_val  = params.get(KEY_QC_ZSL);
     const char *prev_val  = get(KEY_QC_ZSL);
-
-    // Artifacts appear when disabling ZSL for front cam
-    // Exposure for HDR is wrong when ZSL is disabled
-    if (m_pCapability->position == CAM_POSITION_FRONT || m_bHDREnabled) {
-        str_val = VALUE_ON;
-    } else {
-        str_val = params.get(KEY_QC_ZSL);
-    }
 
     if (str_val != NULL) {
         if (prev_val == NULL || strcmp(str_val, prev_val) != 0) {
@@ -3365,7 +3345,7 @@ int32_t QCameraParameters::setWaveletDenoise(const QCameraParameters& params)
             return setWaveletDenoise(DENOISE_OFF);
         }
     }
-    const char *str = DENOISE_ON;
+    const char *str = params.get(KEY_QC_DENOISE);
     const char *prev_str = get(KEY_QC_DENOISE);
     if (str != NULL) {
         if (prev_str == NULL ||
@@ -3641,7 +3621,6 @@ int32_t QCameraParameters::updateParameters(QCameraParameters& params,
         goto UPDATE_PARAM_DONE;
     }
 
-    if ((rc = setSceneMode(params)))                    final_rc = rc;
     if ((rc = setPreviewSize(params)))                  final_rc = rc;
     if ((rc = setVideoSize(params)))                    final_rc = rc;
     if ((rc = setPictureSize(params)))                  final_rc = rc;
@@ -3681,6 +3660,7 @@ int32_t QCameraParameters::updateParameters(QCameraParameters& params,
     if ((rc = setExposureCompensation(params)))         final_rc = rc;
     if ((rc = setWhiteBalance(params)))                 final_rc = rc;
     if ((rc = setWBManualCCT(params)))                  final_rc = rc;
+    if ((rc = setSceneMode(params)))                    final_rc = rc;
     if ((rc = setFocusAreas(params)))                   final_rc = rc;
     if ((rc = setFocusPosition(params)))                final_rc = rc;
     if ((rc = setMeteringAreas(params)))                final_rc = rc;
@@ -3894,7 +3874,7 @@ int32_t QCameraParameters::initDefaultParameters()
     set(KEY_QC_RAW_PICUTRE_SIZE, raw_size_str);
 
     //set default jpeg quality and thumbnail quality
-    set(KEY_JPEG_QUALITY, 95);
+    set(KEY_JPEG_QUALITY, 85);
     set(KEY_JPEG_THUMBNAIL_QUALITY, 85);
 
     // Set FPS ranges
@@ -3965,8 +3945,8 @@ int32_t QCameraParameters::initDefaultParameters()
     }
 
     // set focus position, we should get them from m_pCapability
-    m_pCapability->min_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 0;
-    m_pCapability->max_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 1023;
+    m_pCapability->min_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 40;
+    m_pCapability->max_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX] = 60;
     set(KEY_QC_MIN_FOCUS_POS_INDEX, m_pCapability->min_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX]);
     set(KEY_QC_MAX_FOCUS_POS_INDEX, m_pCapability->max_focus_pos[CAM_MANUAL_FOCUS_MODE_INDEX]);
 
@@ -4107,15 +4087,13 @@ int32_t QCameraParameters::initDefaultParameters()
     setHighFrameRate(CAM_HFR_MODE_OFF);
 
     // Set Focus algorithms
-    if (m_pCapability->position == CAM_POSITION_BACK) {
-        String8 focusAlgoValues = createValuesString(
-                (int *)m_pCapability->supported_focus_algos,
-                m_pCapability->supported_focus_algos_cnt,
-                FOCUS_ALGO_MAP,
-                sizeof(FOCUS_ALGO_MAP) / sizeof(QCameraMap));
-        set(KEY_QC_SUPPORTED_FOCUS_ALGOS, focusAlgoValues);
-        setSelectableZoneAf(FOCUS_ALGO_AUTO);
-    }
+    String8 focusAlgoValues = createValuesString(
+            (int *)m_pCapability->supported_focus_algos,
+            m_pCapability->supported_focus_algos_cnt,
+            FOCUS_ALGO_MAP,
+            sizeof(FOCUS_ALGO_MAP) / sizeof(QCameraMap));
+    set(KEY_QC_SUPPORTED_FOCUS_ALGOS, focusAlgoValues);
+    setSelectableZoneAf(FOCUS_ALGO_AUTO);
 
     // Set Zoom Ratios
     if (m_pCapability->zoom_supported > 0) {
@@ -4204,7 +4182,8 @@ int32_t QCameraParameters::initDefaultParameters()
     setDISValue(VALUE_DISABLE);
 
     // Set Histogram
-    set(KEY_QC_SUPPORTED_HISTOGRAM_MODES, enableDisableValues);
+    set(KEY_QC_SUPPORTED_HISTOGRAM_MODES,
+        m_pCapability->histogram_supported ? enableDisableValues : "");
     set(KEY_QC_HISTOGRAM, VALUE_DISABLE);
 
     //Set Red Eye Reduction
@@ -4588,13 +4567,6 @@ int32_t QCameraParameters::setPreviewFpsRange(int min_fps,
     ALOGE("%s: E minFps = %d, maxFps = %d , vid minFps = %d, vid maxFps = %d",
                 __func__, min_fps, max_fps, vid_min_fps, vid_max_fps);
 
-    /* Cap preview frame rate to 30 FPS */
-    if (max_fps > 30000) {
-        max_fps = 30000;
-        if (min_fps > 30000)
-            min_fps = 30000;
-    }
-
     if(fixedFpsValue != 0) {
       min_fps = (int)fixedFpsValue*1000;
       max_fps = (int)fixedFpsValue*1000;
@@ -4850,7 +4822,7 @@ int32_t QCameraParameters::setSharpness(int sharpness)
     updateParamEntry(KEY_QC_SHARPNESS, val);
     ALOGV("%s: Setting sharpness %s", __func__, val);
 
-    int32_t value = 1;//sharpness;
+    int32_t value = sharpness;
     return AddSetParmEntryToBatch(m_pParamBuf,
                                   CAM_INTF_PARM_SHARPNESS,
                                   sizeof(value),
@@ -6597,7 +6569,6 @@ int32_t QCameraParameters::setRedeyeReduction(const char *redeyeStr)
  *==========================================================================*/
 cam_denoise_process_type_t QCameraParameters::getWaveletDenoiseProcessPlate()
 {
-#if 0
     char prop[PROPERTY_VALUE_MAX];
     memset(prop, 0, sizeof(prop));
     cam_denoise_process_type_t processPlate = CAM_WAVELET_DENOISE_CBCR_ONLY;
@@ -6622,8 +6593,6 @@ cam_denoise_process_type_t QCameraParameters::getWaveletDenoiseProcessPlate()
         }
     }
     return processPlate;
-#endif
-    return CAM_WAVELET_DENOISE_STREAMLINED_CBCR;
 }
 
 /*===========================================================================
@@ -7344,7 +7313,11 @@ int QCameraParameters::getBurstNum()
  *==========================================================================*/
 int QCameraParameters::getJpegQuality()
 {
-    return 95;
+    int quality = getInt(KEY_JPEG_QUALITY);
+    if (quality < 0) {
+        quality = 85; // set to default quality value
+    }
+    return quality;
 }
 
 
