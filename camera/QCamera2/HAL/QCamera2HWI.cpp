@@ -1048,9 +1048,9 @@ int QCamera2HardwareInterface::openCamera(struct hw_device_t **hw_device)
     rc = openCamera();
     if (rc == NO_ERROR){
         *hw_device = &mCameraDevice.common;
-        //if (m_thermalAdapter.init(this) != 0) {
-        //  ALOGE("Init thermal adapter failed");
-        //}
+        if (m_thermalAdapter.init(this) != 0) {
+          ALOGE("Init thermal adapter failed");
+        }
     }
     else
         *hw_device = NULL;
@@ -1084,11 +1084,8 @@ int QCamera2HardwareInterface::openCamera()
     }
     mCameraHandle = camera_open(mCameraId);
     if (!mCameraHandle) {
-        mCameraHandle = camera_open(mCameraId);
-        if (!mCameraHandle) {
-            ALOGE("camera_open failed.");
-            return UNKNOWN_ERROR;
-        }
+        ALOGE("camera_open failed.");
+        return UNKNOWN_ERROR;
     }
     if (NULL == gCamCapability[mCameraId])
         initCapabilities(mCameraId,mCameraHandle);
@@ -1183,11 +1180,6 @@ int QCamera2HardwareInterface::openCamera()
         gCamCapability[mCameraId]->padding_info.plane_padding = padding_info.plane_padding;
     }
 
-    // Hard-code padding for OnePlus X
-    gCamCapability[mCameraId]->padding_info.width_padding = CAM_PAD_TO_64;
-    gCamCapability[mCameraId]->padding_info.height_padding = CAM_PAD_TO_64;
-    gCamCapability[mCameraId]->padding_info.plane_padding = CAM_PAD_TO_64;
-
     mParameters.init(gCamCapability[mCameraId], mCameraHandle, this, this);
 
     rc = m_thermalAdapter.init(this);
@@ -1237,7 +1229,7 @@ int QCamera2HardwareInterface::closeCamera()
     m_postprocessor.stop();
     m_postprocessor.deinit();
 
-    //m_thermalAdapter.deinit();
+    m_thermalAdapter.deinit();
 
     // delete all channels if not already deleted
     for (i = 0; i < QCAMERA_CH_TYPE_MAX; i++) {
