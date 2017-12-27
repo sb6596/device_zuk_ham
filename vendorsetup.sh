@@ -1,3 +1,3 @@
-add_lunch_combo aos_ham-user
-add_lunch_combo aos_ham-userdebug
-add_lunch_combo aos_ham-eng
+add_lunch_combo aosp_ham-user
+add_lunch_combo aosp_ham-userdebug
+add_lunch_combo aosp_ham-eng

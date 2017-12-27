@@ -18,20 +18,13 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from ham device
 $(call inherit-product, device/zuk/ham/ham.mk)
 
-# Inherit some common CM stuff.
-$(call inherit-product, vendor/aos/config/common_full_phone.mk)
+# Inherit some common AEX stuff.
+$(call inherit-product, vendor/aosp/common.mk)
 
-<<<<<<< HEAD:aos.mk
-# Magisk
-WITH_ROOT := true
-
-PRODUCT_NAME := aos_ham
-=======
 # Boot animation
 TARGET_BOOT_ANIMATION_RES := 1080
 
 PRODUCT_NAME := aosp_ham
->>>>>>> 375263d... ham: Fix EQ:aosp_ham.mk
 PRODUCT_DEVICE := ham
 PRODUCT_MANUFACTURER := ZUK
 PRODUCT_MODEL := ZUK Z1
